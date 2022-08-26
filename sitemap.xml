@@ -26,6 +26,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://ecsc.eu/org_teams/</loc>
+         <lastmod>2022-08-26</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://ecsc.eu/org_timetable/</loc>
          <lastmod>2022-08-26</lastmod>
          <changefreq>daily</changefreq>
@@ -52,6 +57,11 @@
     </url>
     <url>
          <loc>https://ecsc.eu/tools/</loc>
+         <lastmod>2022-08-26</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ecsc.eu/wip/</loc>
          <lastmod>2022-08-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
