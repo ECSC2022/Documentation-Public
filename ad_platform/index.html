@@ -697,6 +697,7 @@
 <h3 id="flag-submission">Flag Submission</h3>
 <p>The flag submission endpoint is at <code>10.10.254.254:31337</code>. Flags must be submitted using a TCP  connection, one per line (<code>\n</code>).
 The precise list of messages returned by the flag submission endpoint will be published before the competition.</p>
+<p>The flag format is <code>ECSC_[A-Za-z0-9\+/]{32}</code>.</p>
 <h3 id="nop-team">NOP Team</h3>
 <p>The CTF will feature a NOP team for testing exploits. This team is not displayed on the scoreboard, and attacks against it will not award points. The <code>TEAM_ID</code> of the NOP team is <code>1</code>.</p>
 <h2 id="ctf-as-a-service">CTF-as-a-Service</h2>
