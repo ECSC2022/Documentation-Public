@@ -695,9 +695,41 @@
 <h3 id="scoreboard">Scoreboard</h3>
 <p>The scoreboard is available at <code>http://10.10.254.254/</code>. Flag ids are published as JSON at <code>http://10.10.254.254/competition/teams.json</code>.</p>
 <h3 id="flag-submission">Flag Submission</h3>
-<p>The flag submission endpoint is at <code>10.10.254.254:31337</code>. Flags must be submitted using a TCP  connection, one per line (<code>\n</code>).
-The precise list of messages returned by the flag submission endpoint will be published before the competition.</p>
 <p>The flag format is <code>ECSC_[A-Za-z0-9\+/]{32}</code>.</p>
+<p>The flag submission endpoint is at <code>10.10.254.254:31337</code>. It follows the same TCP-based protocol as FAUST CTF. A detailed description of the protocol specification can be found <a href="https://ctf-gameserver.org/submission/">here</a>.</p>
+<p>Upon connecting, the server will greet you with a welcome message, terminated with two newlines (<code>\n\n</code>).
+You can submit one or more flags per connection, separated by a single newline (<code>\n</code>).
+The server will respond with a repetition of your submitted flag, a response code and an optional error message.</p>
+<p>The response codes the server may send are:</p>
+<ul>
+<li><code>OK</code>: The flag was valid and will be counted towards your score.</li>
+<li><code>DUP</code>: You previously submitted the same flag already.</li>
+<li><code>OWN</code>: The flag belongs to your own team.</li>
+<li><code>OLD</code>: The flag has expired and cannot be submitted any more.</li>
+<li><code>INV</code>: The flag is invalid.</li>
+<li><code>ERR</code>: The competition has not started or has already ended.</li>
+</ul>
+<p>An example conversation with the submission endpoint may look as follows.
+<code>C</code> and <code>S</code> indicate lines sent by the client and server, respectively. Each line includes the terminating
+newline (<code>\n</code>).</p>
+<pre><code>S: ECSC 2022 | Attack-Defense Flag Submission Server
+S: One flag per line please!
+S:
+C: ECSC_uGUKTZtMUmOmoieKUorXzAqcDZznfokk
+S: ECSC_uGUKTZtMUmOmoieKUorXzAqcDZznfokk OK
+C: invalid_flag
+S: invalid_flag INV Invalid flag
+C: ECSC_uGUKTZtMUmOmoieKUorXzAqcDZznfokk
+S: ECSC_uGUKTZtMUmOmoieKUorXzAqcDZznfokk DUP You already submitted this flag
+</code></pre>
+<p>To speed up submission, you may submit multiple flags without waiting for the server's response:</p>
+<pre><code>C: ECSC_zFFsVPqQLyBErVBVOKBMneqHtVsqTXnN
+C: ECSC_GCQs/cdAok/enPzbAwvrz/ASqDtrcyHK
+C: ECSC_CLBqjMqMhacCcNssK+SbhvCgmgOPzKtD
+S: ECSC_zFFsVPqQLyBErVBVOKBMneqHtVsqTXnN OK
+S: ECSC_GCQs/cdAok/enPzbAwvrz/ASqDtrcyHK OK
+S: ECSC_CLBqjMqMhacCcNssK+SbhvCgmgOPzKtD OLD Flag has expired
+</code></pre>
 <h3 id="nop-team">NOP Team</h3>
 <p>The CTF will feature a NOP team for testing exploits. This team is not displayed on the scoreboard, and attacks against it will not award points. The <code>TEAM_ID</code> of the NOP team is <code>1</code>.</p>
 <h2 id="ctf-as-a-service">CTF-as-a-Service</h2>

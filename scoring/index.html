@@ -390,8 +390,28 @@
       
         <li class="md-nav__item">
   <a href="#attack-defense-scoring" class="md-nav__link">
-    Attack Defense Scoring
+    Attack-Defense Scoring
   </a>
+  
+    <nav class="md-nav" aria-label="Attack-Defense Scoring">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scores-per-service" class="md-nav__link">
+    Scores per Service
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#total-attack-defense-score" class="md-nav__link">
+    Total Attack-Defense Score
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -578,8 +598,28 @@
       
         <li class="md-nav__item">
   <a href="#attack-defense-scoring" class="md-nav__link">
-    Attack Defense Scoring
+    Attack-Defense Scoring
   </a>
+  
+    <nav class="md-nav" aria-label="Attack-Defense Scoring">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scores-per-service" class="md-nav__link">
+    Scores per Service
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#total-attack-defense-score" class="md-nav__link">
+    Total Attack-Defense Score
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -621,10 +661,80 @@
 <p>Escape Room is solved by mixed teams (multiple countries). The <strong>draw</strong> for this teams will be done at the <strong>welcome event</strong>.</p>
 <h3 id="hardware-challenge">Hardware Challenge</h3>
 <p>As the hardware challenge will be <strong>part of the jeopardy</strong> competition, it will yield flags as any other jeopardy challenge.</p>
-<h2 id="attack-defense-scoring">Attack Defense Scoring</h2>
-<p>Attack Defense scoring will be based on <a href="https://2021.faustctf.net/information/rules/"><strong>FaustCTF</strong></a>, as it proved in recent years to be almost linear, without creating significant gaps between teams.
-However, <strong>small changes to the scoring system</strong> are necessary to accommodate some differences in the challenge design, e.g., multiple flag stores.</p>
-<p>The final formula will be provided later.</p>
+<h2 id="attack-defense-scoring">Attack-Defense Scoring</h2>
+<p>Attack-Defense scoring is based on <a href="https://2022.faustctf.net/information/rules/"><strong>FaustCTF</strong></a>, as it proved in recent years to be almost linear, without creating significant gaps between teams.
+We only introduced minor changes to the formula to accommodate services with multiple flag stores.</p>
+<p>The final Attack-Defense score of each team is the sum of the team's scores for each individual service. The score for each service is the sum of three components:</p>
+<ul>
+<li>Offense: Points for flags captured from other teams and submitted to the submission endpoint before expiry.</li>
+<li>Defense: Points deduced for having your flags captured by other teams.</li>
+<li>SLA: Points for the availability and correct behavior of your services.</li>
+</ul>
+<h3 id="scores-per-service">Scores per Service</h3>
+<p>For each service, the component scores for each team are calculated as follows:</p>
+<p><strong>Offense points</strong> are calculated as:</p>
+<pre><code>offense = count(flags_captured_by[team])
+for flag in flags_captured_by[team]:
+    offense += (1 / count(all_captures_of[flag]))
+</code></pre>
+<blockquote>
+<p><strong>Note</strong>: Since the points for each captured flag depend on the number of capturing teams, flags can degrade in value over time. This can result in a negative offense point delta being displayed on the scoreboard.</p>
+</blockquote>
+<p><strong>Defense points</strong> are calculated as:</p>
+<pre><code>defense = 0
+for flag in flags_owned_by[team]:
+    defense -= count(all_captures_of[flag]) ** 0.75
+</code></pre>
+<p><strong>SLA points</strong> for each service are based on the lowest availability status of all flag stores of that service and the number of flag stores the service has (services with more flag stores give more SLA points). The SLA points are calculated as:</p>
+<pre><code>sla = (count(ticks_with_status['up'] + 0.5 * ticks_with_status['recovering'])) * sqrt(count(teams)) * count(flag_stores_in_service)
+</code></pre>
+<p>For example, if a service has two flag stores, the possible availability status are:</p>
+<table>
+<thead>
+<tr>
+<th>Status Flag Store 1</th>
+<th>Status Flag Store 2</th>
+<th>Lowest Status</th>
+<th>Point Factor</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>up</td>
+<td>up</td>
+<td>up</td>
+<td>100%</td>
+<td>To get full points, all flag stores must be up.</td>
+</tr>
+<tr>
+<td>up</td>
+<td>recovering</td>
+<td>recovering</td>
+<td>50%</td>
+<td>If one service is recovering and the rest are up or recovering, you obtain half the points for this round.</td>
+</tr>
+<tr>
+<td>recovering</td>
+<td>recovering</td>
+<td>recovering</td>
+<td>50%</td>
+<td>same as above</td>
+</tr>
+<tr>
+<td>down/faulty</td>
+<td>-</td>
+<td>down/faulty</td>
+<td>0%</td>
+<td>If any flag store is down or faulty, you obtain no points for the service in that round.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="total-attack-defense-score">Total Attack-Defense Score</h3>
+<pre><code>total = 0
+for service in services:
+    total += offense[service] + defense[service] + sla[service]
+</code></pre>
 <h2 id="scoring-freezes">Scoring Freezes</h2>
 <p>We will <strong>freeze the scores on both competition days</strong>, to keep the excitement for the award ceremony.</p>
 <h2 id="combined-scoring">Combined Scoring</h2>
