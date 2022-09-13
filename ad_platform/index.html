@@ -427,15 +427,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#scoreboard" class="md-nav__link">
-    Scoreboard
+  <a href="#scoreboard-and-rounds" class="md-nav__link">
+    Scoreboard and Rounds
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#flag-submission" class="md-nav__link">
-    Flag Submission
+  <a href="#flags" class="md-nav__link">
+    Flags
   </a>
   
 </li>
@@ -594,15 +594,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#scoreboard" class="md-nav__link">
-    Scoreboard
+  <a href="#scoreboard-and-rounds" class="md-nav__link">
+    Scoreboard and Rounds
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#flag-submission" class="md-nav__link">
-    Flag Submission
+  <a href="#flags" class="md-nav__link">
+    Flags
   </a>
   
 </li>
@@ -692,10 +692,10 @@
 <p>Players have access to their and other team services (see below) but can not connect to other team players' subnets. Services do not have access to the Internet, players' laptops, or other services.</p>
 <p>A connection rate limit is in place to prevent players from DoS-ing services. If you receive connection drops, ensure you are not opening too many connections.</p>
 <p>All connections to services are tracked inside traffic dumps (PCAPs). Each team can download the pcaps for all their services.</p>
-<h3 id="scoreboard">Scoreboard</h3>
-<p>The scoreboard is available at <code>http://10.10.254.254/</code>. Flag ids are published as JSON at <code>http://10.10.254.254/competition/teams.json</code>.</p>
-<h3 id="flag-submission">Flag Submission</h3>
-<p>The flag format is <code>ECSC_[A-Za-z0-9\+/]{32}</code>.</p>
+<h3 id="scoreboard-and-rounds">Scoreboard and Rounds</h3>
+<p>The scoreboard is available at <a href="">http://10.10.254.254/</a>. Flag ids are published as JSON at <a href="">http://10.10.254.254/competition/teams.json</a>. The <strong>round length is 3 minutes</strong>.</p>
+<h3 id="flags">Flags</h3>
+<p>The flag format is <code>ECSC_[A-Za-z0-9\+/]{32}</code>. Flags are <strong>valid for 5 rounds</strong>.</p>
 <p>The flag submission endpoint is at <code>10.10.254.254:31337</code>. It follows the same TCP-based protocol as FAUST CTF. A detailed description of the protocol specification can be found <a href="https://ctf-gameserver.org/submission/">here</a>.</p>
 <p>Upon connecting, the server will greet you with a welcome message, terminated with two newlines (<code>\n\n</code>).
 You can submit one or more flags per connection, separated by a single newline (<code>\n</code>).
@@ -762,6 +762,7 @@ S: ECSC_CLBqjMqMhacCcNssK+SbhvCgmgOPzKtD OLD Flag has expired
 <li>Check the dashboard and wait for the build to finish</li>
 </ul>
 <p>Once the build has finished and succeeded, you can deploy the service to either <em>Staging (S)</em> or <em>Production (P)</em> by clicking the corresponding buttons under <em>Deploy</em>.</p>
+<p>Please notice that <code>docker-compose.yaml</code> files are provided only for local testing as they are not used in the remote deployment. Services can also specify in <code>.protected_files.env</code> a set of read-only files that are forbidden to be modified by teams. Commits trying to alter these files will be rejected during <code>git push</code>. <code>Dockerfile</code> is always among the protected files.</p>
 
 
 

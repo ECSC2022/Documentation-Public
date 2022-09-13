@@ -418,6 +418,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#human-and-technical-behavior" class="md-nav__link">
+    Human and Technical Behavior
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -531,6 +538,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#human-and-technical-behavior" class="md-nav__link">
+    Human and Technical Behavior
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -562,21 +576,26 @@
 <p>The flag ID for the 1st flag store could be the identifier of the private thread, while the user identifier could be used as a flag ID for the 2nd flag store.</p>
 <p>Expect <strong>4 to 7 services</strong>, where each service will have <strong>one or more flag stores</strong>. A flag store can be exploited by <strong>one or more vulnerabilities</strong>. The number of flag stores of each service will be announced on the scoreboard, but we will not provide insights on the number, type, and expected difficulty of (intended) vulnerabilities.</p>
 <h2 id="game-design">Game Design</h2>
-<p>We will announce more details during the <a href="/ad_dryrun">A/D CTF simulation event</a>. This documentation will be updated accordingly. Few important things that you may want to take into account:</p>
+<p>The game design is detailed in the <a href="/ad_platform">A/D CTF Platform Overview</a> page. A few important things that you may want to take into account:</p>
 <ul>
-<li>Like traditional A/D CTFs, the game keeps track of attack, defense, and SLA (i.e., the percentage of time the service is up and working as intended). The <strong>scoring formula</strong> is based on <a href="https://2022.faustctf.net/information/rules/">FAUST CTF</a>.</li>
-<li>The game server checks the correct functionalities of each service once per <strong>round</strong> and places a new flag (different flag stores have different flags). The round duration will be announced later.</li>
+<li>Like traditional A/D CTFs, the game keeps track of attack, defense, and SLA (i.e., the percentage of time the service is up and working as intended). The <strong>scoring formula</strong> is based on <a href="https://2022.faustctf.net/information/rules/">FAUST CTF</a> and explained in the <a href="/scoring">Scoring</a> page.</li>
+<li>The game server checks the correct functionalities of each service once per <strong>round</strong> and places a new flag (different flag stores have different flags). The duration of a single round is <strong>3 minutes</strong>, while flags are valid for <strong>5 rounds</strong>.</li>
 <li>Teams are required to <strong>attack services</strong> of other contestants as in a traditional A/D CTF. Organizers do not run exploits against other teams for you.</li>
-<li>Teams have a <strong>limited access</strong> to their vulnerable machine. Additionally, there is a <strong>staging environment</strong> for testing/debugging and a <strong>production environment</strong>.</li>
+<li>Teams have a <strong>limited access</strong> to their vulnerable machine. Additionally, there is a <strong>staging environment</strong> for testing/debugging and a <strong>production environment</strong> exposed to competing teams.</li>
 <li><strong>Patch deployment</strong> takes place via git. Patches are not tested by organizers before deployment. A patch that breaks the service (e.g., by removal of intended functionality) will lower the SLA of the service.</li>
 <li>Anonymized <strong>traffic dumps</strong> (pcaps) of the services running in the production environment are provided.</li>
 </ul>
-<p>A few additional considerations:</p>
+<h2 id="human-and-technical-behavior">Human and Technical Behavior</h2>
+<p>The goal of this competition is to allow participants to practice their skills and have fun. We want everyone to enjoy a fair game. For this reason, we ask you to follow these simple rules:</p>
 <ul>
-<li>The ultimate goal of the CTF is to be a fun and educational experience. <strong>DoSsing is lame and not fun</strong>.</li>
-<li>DoSsing attempts are strictly forbidden. Violations are recorded by organizers who decide which action to take, e.g., sending <code>RST</code> packets, disconnecting the team for N rounds, deducing points, etc. Please, be nice.</li>
-<li>Attacking the infrastructure is severely prohibited. Organizers welcome responsible disclosure.</li>
+<li><strong>No attacks against the infrastructure</strong>. Attempts to circumvent the limitations imposed by the CTF infrastructure are forbidden. We reserve the right to award extra points (and eternal fame) for <strong>responsibly disclosed vulnerabilities</strong> in our infrastructure. Please open a ticket and inform us whenever you suspect that you are allowed to do specific actions that the infrastructure should have prevented.</li>
+<li>The <strong>production services</strong> of other teams are the only <strong>allowed targets for exploitation</strong>. Players are not allowed to attack competition infrastructure or any other portion of a team's network (inside or outside of the VPN). Attacking other participants' devices is severely prohibited and could lead to disqualification. Weaponizing 0/N-days against tools that other teams might use is also not allowed.</li>
+<li><strong>No DoS</strong>. Causing unnecessarily high loads for CPU, traffic, memory, I/O, etc. on our infrastructure, other teams (including production, staging, and dashboard VMs), or any other party is strictly prohibited. Breaking another team's service through a sheer amount of requests is forbidden. Breaking it through logic vulnerabilities, flag deletion, etc., is not permitted. Generating fake flags is also disallowed.</li>
+<li><strong>Sharing flags, exploits, or hints between teams is severely prohibited</strong>.</li>
 </ul>
+<p>During the competition, organizers will actively monitor the network traffic and record violations reported by participants. Violation of the rules or any other hostile behavior may lead to deduction of points or temporary exclusion from the competition by, e.g., sending <code>RST</code> packets or disconnecting a team for N rounds. Severe misconduct will be discussed with the Jury that could decide to permanently exclude a team from the CTF. Please, let's be nice.</p>
+<p>Despite these policies, all participants are responsible for the security of their own hardware and software. We will do our best to prevent malicious behavior, but we cannot guarantee other participants' behavior. ECSC organizers are not liable for any potential damage to your equipment.</p>
+<p>The rules listed on this page may change as more issues are raised by the participants. Also, the organizers keep the right to change them at any time. Please remember that it is impossible to list all rules and exceptions that apply to the CTF competition. When in doubt, use common sense or ask.</p>
 
 
 
